@@ -4,9 +4,10 @@ name: Build C# Project
 # This controls when the workflow runs
 on:
   push:
-    # Run only when code is pushed to the master branch
+    # Run only when code is pushed to the master/main branch
     branches:
       - master
+      - main
 
   # This allows you to manually run the workflow from GitHub
   workflow_dispatch:
