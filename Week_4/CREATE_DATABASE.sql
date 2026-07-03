@@ -1,0 +1,27 @@
+IF DB_ID('TaskManagerDb') IS NULL
+BEGIN
+    CREATE DATABASE TaskManagerDb;
+END;
+GO
+
+USE TaskManagerDb;
+GO
+
+IF OBJECT_ID('dbo.Tasks', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Tasks (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Title NVARCHAR(200) NOT NULL,
+        IsCompleted BIT NOT NULL DEFAULT 0,
+        CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE()
+    );
+END;
+GO
+
+SELECT TABLE_NAME
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE';
+GO
+
+EXEC sp_help 'Tasks';
+GO
