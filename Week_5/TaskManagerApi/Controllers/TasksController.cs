@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TaskManagerApi.Controllers;
@@ -7,11 +6,9 @@ namespace TaskManagerApi.Controllers;
 [Route("api/tasks")]
 public class TasksController : ControllerBase
 {
-    [HttpGet]
-    public ActionResult Get()
+    private List<TaskItem> GetSampleTasks()
     {
-        
-        var tasks = new List<TaskItem>
+        var sampleTasks = new List<TaskItem>
         {
             new TaskItem
             {
@@ -32,12 +29,19 @@ public class TasksController : ControllerBase
                 IsCompleted = false
             }
         };
+        return sampleTasks;
+    }
+    [HttpGet]
+    public ActionResult<List<TaskItem>> Get()
+    {
+        
+        var tasks = GetSampleTasks();
 
         return Ok(tasks); 
     }
 
     [HttpGet("{id}")]
-    public ActionResult Get(int id)
+    public ActionResult<TaskItem?> Get(int id)
     {
         TaskItem? FindTaskById(List<TaskItem> taskList, int idOfTask)
         {
@@ -52,33 +56,13 @@ public class TasksController : ControllerBase
             return null;
         }
     
-        var tasks = new List<TaskItem>
-        {
-            new TaskItem
-            {
-                Id = 1,
-                Title = "Learning C#",
-                IsCompleted = true
-            },
-            new TaskItem
-            {
-                Id = 2,
-                Title = "Practicing Programming",
-                IsCompleted = false
-            },
-            new TaskItem
-            {
-                Id = 3,
-                Title = "Learning and failing",
-                IsCompleted = false
-            }
-        };
+         var tasks = GetSampleTasks();
 
-        var valid_task = FindTaskById(tasks, id);
+        var valid_Task = FindTaskById(tasks, id);
 
-        if (valid_task!= null)
+        if (valid_Task!= null)
         {
-            return Ok(valid_task);
+            return Ok(valid_Task);
         }
         else
         {
