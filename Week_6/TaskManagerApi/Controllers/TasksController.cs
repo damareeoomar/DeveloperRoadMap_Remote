@@ -36,6 +36,10 @@ public class TasksController : ControllerBase
     [HttpPost]
     public ActionResult<TaskItem> Post([FromBody] CreateTaskDto dto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         TaskItem newTask = new TaskItem
         {
             Id = Tasks.Count + 1,
