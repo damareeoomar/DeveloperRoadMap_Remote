@@ -84,3 +84,12 @@ jobs:
       #Building Week 5 Project
       - name: Build Week 5 Project 
         run: dotnet build ./Week_5/TaskManagerApi/TaskManagerApi.csproj --configuration Release --no-restore
+
+
+      # Restoring Week 5 Project 
+      - name: Restore Week 6 Project 
+        run: dotnet restore ./Week_6/TaskManagerApi/TaskManagerApi.csproj
+
+      #Building Week 5 Project
+      - name: Build Week 5 Project 
+        run: dotnet build ./Week_6/TaskManagerApi/TaskManagerApi.csproj --configuration Release --no-restore
