@@ -44,12 +44,12 @@ public class TasksController : ControllerBase
         {
             Id = Tasks.Count + 1,
             Title = dto.Title,
+            IsCompleted = false
 
         }; 
 
         Tasks.Add(newTask);
 
-        return Ok(newTask);
-        // return CreatedAtAction(nameof(Get), new { id = receivedTask.Id }, receivedTask);
+        return CreatedAtAction(nameof(Get), new { id = newTask.Id }, newTask);
     }
 }
