@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TaskManagerApi.DTOs;
 
 namespace TaskManagerApi.Controllers;
 
@@ -33,12 +34,18 @@ public class TasksController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<TaskItem> Post(TaskItem receivedTask)
+    public ActionResult<TaskItem> Post(CreateTaskDto dto)
     {
-        receivedTask.Id = Tasks.Count + 1;
-        Tasks.Add(receivedTask);
+        TaskItem newTask = new TaskItem
+        {
+            Id = Tasks.Count + 1,
+            Title = dto.Title,
 
-        return Ok(receivedTask);
+        }; 
+        
+        Tasks.Add(newTask);
+
+        return Ok(newTask);
         // return CreatedAtAction(nameof(Get), new { id = receivedTask.Id }, receivedTask);
     }
 }
