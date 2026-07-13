@@ -34,7 +34,7 @@ public class TasksController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<TaskItem> Post(CreateTaskDto dto)
+    public ActionResult<TaskItem> Post([FromBody] CreateTaskDto dto)
     {
         TaskItem newTask = new TaskItem
         {
@@ -42,7 +42,7 @@ public class TasksController : ControllerBase
             Title = dto.Title,
 
         }; 
-        
+
         Tasks.Add(newTask);
 
         return Ok(newTask);
