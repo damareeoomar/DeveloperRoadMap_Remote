@@ -20,18 +20,16 @@ public class TasksController : ControllerBase
         return Ok(_taskService.GetAllTasks());
     }
 
-    // [HttpGet("{id}")]
-    // public ActionResult<TaskItem> Get(int id)
-    // {
-    //     var task = Tasks.FirstOrDefault(t => t.Id == id);
-
-    //     if (task == null)
-    //     {
-    //         return NotFound($"Task with Id {id} not found.");
-    //     }
-
-    //     return Ok(task);
-    // }
+    [HttpGet("{id}")]
+    public ActionResult<TaskItem> Get(int id)
+    {
+        if (_taskService.FindTaskById(id) == null)
+        {
+            return NotFound($"Task with Id {id} not found.");
+        }
+        return Ok(_taskService.FindTaskById(id));
+   
+    }
 
     // [HttpPost]
     // public ActionResult<TaskItem> Post([FromBody] CreateTaskDto dto)

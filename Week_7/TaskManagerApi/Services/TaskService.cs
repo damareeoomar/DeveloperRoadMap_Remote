@@ -14,4 +14,10 @@ public class TaskService
     {
         return Tasks;
     }
+
+    public TaskItem? FindTaskById(int id)
+    {
+        return  Tasks.FirstOrDefault(t => t.Id == id);
+
+    }
 }
