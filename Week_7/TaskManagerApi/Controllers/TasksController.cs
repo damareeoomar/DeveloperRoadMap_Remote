@@ -31,23 +31,15 @@ public class TasksController : ControllerBase
    
     }
 
-    // [HttpPost]
-    // public ActionResult<TaskItem> Post([FromBody] CreateTaskDto dto)
-    // {
-    //     if (!ModelState.IsValid)
-    //     {
-    //         return BadRequest(ModelState);
-    //     }
-    //     TaskItem newTask = new TaskItem
-    //     {
-    //         Id = Tasks.Count + 1,
-    //         Title = dto.Title,
-    //         IsCompleted = false
+    [HttpPost]
+    public ActionResult<TaskItem> Post([FromBody] CreateTaskDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        TaskItem createdTask  = _taskService.CreateTask(dto);
 
-    //     }; 
-
-    //     Tasks.Add(newTask);
-
-    //     return CreatedAtAction(nameof(Get), new { id = newTask.Id }, newTask);
-    // }
+        return CreatedAtAction(nameof(Get), new { id = createdTask .Id }, createdTask);
+    }
 }

@@ -1,4 +1,5 @@
 namespace TaskManagerApi.Services; 
+using TaskManagerApi.DTOs;
 
 
 public class TaskService
@@ -19,5 +20,18 @@ public class TaskService
     {
         return  Tasks.FirstOrDefault(t => t.Id == id);
 
+    }
+    public TaskItem CreateTask(CreateTaskDto dto)
+    {
+        TaskItem newTask = new TaskItem
+        {
+            Id = Tasks.Count + 1,
+            Title = dto.Title,
+            IsCompleted = false
+
+        }; 
+
+        Tasks.Add(newTask);
+        return newTask;
     }
 }
