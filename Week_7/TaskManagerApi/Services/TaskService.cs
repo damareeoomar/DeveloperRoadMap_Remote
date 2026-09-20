@@ -5,7 +5,7 @@ using TaskManagerApi.DTOs;
 public class TaskService
 {
 
-    private static readonly List<TaskItem> Tasks = new()
+    private readonly List<TaskItem> Tasks = new()
     {
         new TaskItem { Id = 1, Title = "Learning C#", IsCompleted = true },
         new TaskItem { Id = 2, Title = "Practicing Programming", IsCompleted = false },
