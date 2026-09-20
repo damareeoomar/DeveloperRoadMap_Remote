@@ -20,16 +20,18 @@ public class TasksController : ControllerBase
         return Ok(_taskService.GetAllTasks());
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<TaskItem> Get(int id)
+[HttpGet("{id:int}")]
+public ActionResult<TaskItem> GetById(int id)
+{
+    var task = _taskService.FindTaskById(id);
+
+    if (task == null)
     {
-        if (_taskService.FindTaskById(id) == null)
-        {
-            return NotFound($"Task with Id {id} not found.");
-        }
-        return Ok(_taskService.FindTaskById(id));
-   
+        return NotFound($"Task with Id {id} not found.");
     }
+
+    return Ok(task);
+}
 
     [HttpPost]
     public ActionResult<TaskItem> Post([FromBody] CreateTaskDto dto)
@@ -40,6 +42,6 @@ public class TasksController : ControllerBase
         }
         TaskItem createdTask  = _taskService.CreateTask(dto);
 
-        return CreatedAtAction(nameof(Get), new { id = createdTask .Id }, createdTask);
+        return CreatedAtAction(nameof(GetById), new { id = createdTask .Id }, createdTask);
     }
 }
