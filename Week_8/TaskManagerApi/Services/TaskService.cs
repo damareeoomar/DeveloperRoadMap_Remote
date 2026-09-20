@@ -26,7 +26,7 @@ public class TaskService
         TaskItem newTask = new TaskItem
         {
             Id = Tasks.Count + 1,
-            Title = dto.Title,
+            Title = dto.Title.Trim(),
             IsCompleted = false
 
         }; 
@@ -44,8 +44,8 @@ public class TaskService
             return null;
         }
 
-        task.Title = dto.Title;
-        task.IsCompleted = dto.IsCompleted;
+        task.Title = dto.Title.Trim();
+        task.IsCompleted = dto.IsCompleted.Value;
 
         return task;
     }

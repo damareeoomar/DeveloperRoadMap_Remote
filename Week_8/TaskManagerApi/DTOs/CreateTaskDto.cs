@@ -5,6 +5,16 @@ namespace TaskManagerApi.DTOs;
 
 public class CreateTaskDto
 {
-    [Required]
-    public string Title { get; set; } ="";
+    private string _title = "";
+
+    [Required(ErrorMessage = "Title is required.")]
+    [StringLength(
+        100,
+        MinimumLength = 3,
+        ErrorMessage = "Title must be between 3 and 100 characters.")]
+    public string Title
+    {
+        get => _title;
+        set => _title = value?.Trim() ?? "";
+    }
 }

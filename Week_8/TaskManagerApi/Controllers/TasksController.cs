@@ -20,18 +20,23 @@ public class TasksController : ControllerBase
         return Ok(_taskService.GetAllTasks());
     }
 
-[HttpGet("{id:int}")]
-public ActionResult<TaskItem> GetById(int id)
-{
-    var task = _taskService.FindTaskById(id);
-
-    if (task == null)
+    [HttpGet("{id:int}")]
+    public ActionResult<TaskItem> GetById(int id)
     {
-        return NotFound($"Task with Id {id} not found.");
-    }
+        if (id <= 0)
+        {
+            return BadRequest("Task Id must be greater than zero.");
+        }
+        
+        var task = _taskService.FindTaskById(id);
 
-    return Ok(task);
-}
+        if (task == null)
+        {
+            return NotFound($"Task with Id {id} not found.");
+        }
+
+        return Ok(task);
+    }
 
     [HttpPost]
     public ActionResult<TaskItem> Post([FromBody] CreateTaskDto dto)
@@ -46,8 +51,14 @@ public ActionResult<TaskItem> GetById(int id)
     }
 
     [HttpPut("{id:int}")]
+    // [ValidateAntiForgeryToken]
+    
     public ActionResult<TaskItem> Update(int id,[FromBody] UpdateTaskDto dto)
     {
+        if (id <= 0)
+        {
+            return BadRequest("Task Id must be greater than zero.");
+        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
