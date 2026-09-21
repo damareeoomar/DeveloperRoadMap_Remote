@@ -27,7 +27,7 @@ public class TasksController : ControllerBase
         {
             return BadRequest("Task Id must be greater than zero.");
         }
-        
+
         var task = _taskService.FindTaskById(id);
 
         if (task == null)
@@ -72,5 +72,23 @@ public class TasksController : ControllerBase
         }
 
         return Ok(updatedTask);
+    }
+
+    [HttpDelete("{id:int}")]
+    public IActionResult Delete(int id)
+    {
+        if (id <= 0)
+        {
+            return BadRequest("Task Id must be greater than zero.");
+        }
+
+        bool wasDeleted = _taskService.DeleteTask(id);
+
+        if (!wasDeleted)
+        {
+            return NotFound($"Task with Id {id} not found.");
+        }
+
+        return NoContent();
     }
 }
