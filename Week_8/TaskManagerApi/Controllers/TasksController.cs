@@ -25,14 +25,14 @@ public class TasksController : ControllerBase
     {
         if (id <= 0)
         {
-            return BadRequest("Task Id must be greater than zero.");
+            return InvalidTaskIdProblem(id);
         }
 
         var task = _taskService.FindTaskById(id);
 
         if (task == null)
         {
-            return NotFound($"Task with Id {id} not found.");
+            return TaskNotFoundProblem(id);
         }
 
         return Ok(task);
@@ -41,10 +41,6 @@ public class TasksController : ControllerBase
     [HttpPost]
     public ActionResult<TaskItem> Post([FromBody] CreateTaskDto dto)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         TaskItem createdTask  = _taskService.CreateTask(dto);
 
         return CreatedAtAction(nameof(GetById), new { id = createdTask .Id }, createdTask);
@@ -57,18 +53,14 @@ public class TasksController : ControllerBase
     {
         if (id <= 0)
         {
-            return BadRequest("Task Id must be greater than zero.");
-        }
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
+            InvalidTaskIdProblem(id);
         }
 
         var updatedTask = _taskService.UpdateTask(id, dto);
 
         if (updatedTask == null)
         {
-            return NotFound($"Task with Id {id} not found.");
+            TaskNotFoundProblem(id);
         }
 
         return Ok(updatedTask);
@@ -79,16 +71,34 @@ public class TasksController : ControllerBase
     {
         if (id <= 0)
         {
-            return BadRequest("Task Id must be greater than zero.");
+            return InvalidTaskIdProblem(id);
         }
 
         bool wasDeleted = _taskService.DeleteTask(id);
 
         if (!wasDeleted)
         {
-            return NotFound($"Task with Id {id} not found.");
+            return TaskNotFoundProblem(id);
         }
 
         return NoContent();
+    }
+
+    private ObjectResult InvalidTaskIdProblem(int id)
+    {
+        return Problem(
+            statusCode: StatusCodes.Status400BadRequest,
+            title: "Invalid task Id",
+            detail: $"Task Id {id} is invalid. Task Id must be greater than zero.",
+            instance: HttpContext.Request.Path);
+    }
+
+    private ObjectResult TaskNotFoundProblem(int id)
+    {
+        return Problem(
+            statusCode: StatusCodes.Status404NotFound,
+            title: "Task not found",
+            detail: $"Task with Id {id} was not found.",
+            instance: HttpContext.Request.Path);
     }
 }
