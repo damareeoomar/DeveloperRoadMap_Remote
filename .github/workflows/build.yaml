@@ -110,3 +110,11 @@ jobs:
       - name: Build Week 8 Project
         run: dotnet build ./Week_8/TaskManagerApi/TaskManagerApi.csproj --configuration Release --no-restore
 
+      # Restoring Week 9 Project
+      - name: Restore Week 9 Project
+        run: dotnet restore ./Week_9/TaskManagerApi/TaskManagerApi.csproj
+
+      #Building Week 9 Project
+      - name: Build Week 9 Project
+        run: dotnet build ./Week_9/TaskManagerApi/TaskManagerApi.csproj --configuration Release --no-restore
+
